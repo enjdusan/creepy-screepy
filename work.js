@@ -3,12 +3,12 @@ const spawn = Game.spawns['Spawn1'];
 const Work = {
     run(creep) {
         if (creep.carry.energy === creep.carryCapacity) {
-            creep.working = true;
+            creep.memory.working = true;
         } else if (creep.carry.energy === 0) {
-            creep.working = false;
+            creep.memory.working = false;
         }
 
-        if (creep.working) {
+        if (creep.memory.working) {
             switch (creep.memory.name) {
 
                 // PRACE HARVESTERA
@@ -44,6 +44,7 @@ const Work = {
                             creep.moveTo(needsRepair);
                         }
                     } else {
+                        console.log('neni co opravovat');
                         this.construct(creep);
                     }
 
@@ -57,7 +58,11 @@ const Work = {
     },
 
     construct(creep) {
-        creep.build(creep.pos.findClosestByPath(FIND_CONSTRUCTION_SITES));
+        let constructionSite = creep.pos.findClosestByPath(FIND_CONSTRUCTION_SITES);
+
+        if (creep.build(constructionSite) === ERR_NOT_IN_RANGE) {
+            creep.moveTo(constructionSite)
+        }
     }
 };
 

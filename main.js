@@ -32,7 +32,7 @@ for (let name in creeps) {
 console.log(`Pocty: harvesters ${harvesters}; upgraders ${upgraders}; repairers ${repairers}.`);
 
 if (mainSpawn.energy >= 200) {
-    let creepInfo = {};
+    let creepInfo = null;
 
     if (harvesters < maxHarvesters) {
         creepInfo = {
@@ -56,7 +56,7 @@ if (mainSpawn.energy >= 200) {
     }
 }
 
-function spawnWorkingCreep(creepInfo, name = null) {
+function spawnWorkingCreep(creepInfo, name) {
     let creepName = name || creepInfo.name + '_' + (creepInfo.type + 1);
     console.log(`Snazim se spawnout ${creepName}`);
 
