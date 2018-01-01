@@ -34,7 +34,12 @@ const Work = {
                 case 'repairer':
                     let needsRepair = creep.pos.findClosestByPath(FIND_STRUCTURES, {
                         filter(structure) {
-                            return structure.hits < structure.hitsMax;
+                            let percentage = 1;
+                            // Silnice opravovat, az se dostanou na 70 %
+                            if (structure.structureType === STRUCTURE_ROAD) {
+                                percentage = 0.7
+                            }
+                            return structure.hits < structure.hitsMax * percentage;
                         }
                     });
 
