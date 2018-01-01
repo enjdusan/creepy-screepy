@@ -78,8 +78,15 @@ let roles = {
                     }
                 });
 
-                if (creep.repair(needsRepair) === ERR_NOT_IN_RANGE) {
-                    creep.moveTo(needsRepair);
+                // Kdyz neni co opravovat, tak jede stavet
+                if (needsRepair) {
+                    creep.memory.building = false;
+
+                    if (creep.repair(needsRepair) === ERR_NOT_IN_RANGE) {
+                        creep.moveTo(needsRepair);
+                    }
+                } else {
+                    creep.memory.building = true;
                 }
             } else {
                 roles.findAndHarvestEnergy(creep);
