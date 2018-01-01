@@ -44,18 +44,14 @@ if (mainSpawn.energy >= 200 && harvesters < maxHarvesters) {
     };
 
     spawnWorkingCreep(spawn);
-}
-
-if (mainSpawn.energy >= 200 && upgraders < maxUpgraders) {
+} else if (mainSpawn.energy >= 200 && upgraders < maxUpgraders) {
     let spawn = {
         name: 'upgrader',
         type: upgraders
     };
 
     spawnWorkingCreep(spawn);
-}
-
-if (mainSpawn.energy >= 200 && repairers < maxRepairers) {
+} else if (mainSpawn.energy >= 200 && repairers < maxRepairers) {
     let spawn = {
         name: 'repairer',
         type: repairers
@@ -68,10 +64,10 @@ function spawnWorkingCreep(spawn) {
     let creepName = spawn.name + '_' + (spawn.type + 1);
     console.log(`Snazim se spawnout ${creepName}`);
 
-    let result = mainSpawn.spawnWorkingCreep(
+    let result = mainSpawn.spawnCreep(
         [WORK, CARRY, MOVE],
         creepName,
-        {memory: {name: spawn.name}});
+        {memory: {name: spawn.name, working: false}});
 
     console.log(result);
 }

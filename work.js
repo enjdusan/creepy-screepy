@@ -3,12 +3,12 @@ const spawn = Game.spawns['Spawn1'];
 const Work = {
     run(creep) {
         if (creep.carry.energy === creep.carryCapacity) {
-            creep.memory.working = true;
+            creep.working = true;
         } else if (creep.carry.energy === 0) {
-            creep.memory.working = false;
+            creep.working = false;
         }
 
-        if (creep.memory.working) {
+        if (creep.working) {
             switch (creep.memory.name) {
 
                 // PRACE HARVESTERA
