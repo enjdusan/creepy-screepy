@@ -7,7 +7,7 @@ let
     harvesters = 0,
     upgraders = 0,
     repairers = 0,
-    maxHarvesters = 3,
+    maxHarvesters = 4,
     maxUpgraders = 3,
     maxRepairers = 3;
 
