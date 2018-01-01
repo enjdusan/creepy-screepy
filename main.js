@@ -1,5 +1,4 @@
 const Work = require('work');
-const autobuild = require('autobuild');
 
 const mainSpawn = Game.spawns['Spawn1'];
 const creeps = Game.creeps;
@@ -32,42 +31,41 @@ for (let name in creeps) {
 
 console.log(`Pocty: harvesters ${harvesters}; upgraders ${upgraders}; repairers ${repairers}.`);
 
-// Stavet jen kdyz je dostatek naspawnovanych harvesteru
-if (harvesters >= maxHarvesters && upgraders >= maxUpgraders) {
-    autobuild();
+if (mainSpawn.energy >= 200) {
+    let creepInfo = {};
+
+    if (harvesters < maxHarvesters) {
+        creepInfo = {
+            name: 'harvester',
+            type: harvesters
+        };
+    } else if (upgraders < maxUpgraders) {
+        creepInfo = {
+            name: 'upgrader',
+            type: upgraders
+        };
+    } else if (repairers < maxRepairers) {
+        creepInfo = {
+            name: 'repairer',
+            type: repairers
+        };
+    }
+
+    if (creepInfo) {
+        spawnWorkingCreep(creepInfo);
+    }
 }
 
-if (mainSpawn.energy >= 200 && harvesters < maxHarvesters) {
-    let spawn = {
-        name: 'harvester',
-        type: harvesters
-    };
-
-    spawnWorkingCreep(spawn);
-} else if (mainSpawn.energy >= 200 && upgraders < maxUpgraders) {
-    let spawn = {
-        name: 'upgrader',
-        type: upgraders
-    };
-
-    spawnWorkingCreep(spawn);
-} else if (mainSpawn.energy >= 200 && repairers < maxRepairers) {
-    let spawn = {
-        name: 'repairer',
-        type: repairers
-    };
-
-    spawnWorkingCreep(spawn);
-}
-
-function spawnWorkingCreep(spawn) {
-    let creepName = spawn.name + '_' + (spawn.type + 1);
+function spawnWorkingCreep(creepInfo, name = null) {
+    let creepName = name || creepInfo.name + '_' + (creepInfo.type + 1);
     console.log(`Snazim se spawnout ${creepName}`);
 
     let result = mainSpawn.spawnCreep(
         [WORK, CARRY, MOVE],
         creepName,
-        {memory: {name: spawn.name, working: false}});
+        {memory: {name: creepInfo.name, working: false}});
 
-    console.log(result);
+    if (result === ERR_NAME_EXISTS) {
+        spawnWorkingCreep(creepInfo, creepName + 1);
+    }
 }
