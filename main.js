@@ -7,7 +7,10 @@ const creeps = Game.creeps;
 let
     harvesters = 0,
     upgraders = 0,
-    repairers = 0;
+    repairers = 0,
+    maxHarvesters = 5,
+    maxUpgraders = Math.floor(maxHarvesters / 2),
+    maxRepairers = 3;
 
 for (let name in creeps) {
     if (creeps[name].memory.name === 'harvester') {
@@ -28,59 +31,48 @@ for (let name in creeps) {
     }
 }
 
-console.log(`Pocty: harvesters ${harvesters}; upgraders ${upgraders}.`);
+console.log(`Pocty: harvesters ${harvesters}; upgraders ${upgraders}; repairers ${repairers}.`);
 
 // Stavet jen kdyz je dostatek naspawnovanych harvesteru
-if (harvesters >= 6 && upgraders >= 2) {
+if (harvesters >= maxHarvesters && upgraders >= maxUpgraders) {
     autobuild();
 }
 
-if (repairers < 2) {
-    let spawn = {
-        name: 'Repairer',
-        role: ROLES.REPAIRER,
-        type: repairers
-    };
-
-    let creepName = spawn.name + '_' + (spawn.type + 1);
-
-    // FIXME: DRY -> refactor
-    if (spawnWorkingCreep(creepName, spawn) === ERR_NAME_EXISTS) {
-        spawnWorkingCreep(
-            spawn.name + '_' + (spawn.type + 1) + '_' + Math.floor(Math.random() * (9999 - 1000)) + 1000,
-            spawn);
-    }
-}
-
-if (mainSpawn.energy >= 200 && harvesters < 10) {
+if (mainSpawn.energy >= 200 && harvesters < maxHarvesters) {
     let spawn = {
         name: 'Harvester',
         role: ROLES.HARVESTER,
         type: harvesters
     };
 
-    if ((upgraders + 3) < harvesters) {
-        spawn = {
-            name: 'Upgrader',
-            role: ROLES.UPGRADER,
-            type: upgraders
-        }
-    }
-
-    let creepName = spawn.name + '_' + (spawn.type + 1);
-
-    // FIXME: DRY -> refactor
-    if (spawnWorkingCreep(creepName, spawn) === ERR_NAME_EXISTS) {
-        spawnWorkingCreep(
-            spawn.name + '_' + (spawn.type + 1) + '_' + Math.floor(Math.random() * (9999 - 1000)) + 1000,
-            spawn);
-    }
+    spawnWorkingCreep(spawn);
 }
 
-function spawnWorkingCreep(creepName, spawn) {
+if (mainSpawn.energy >= 200 && upgraders < maxUpgraders) {
+    let spawn = {
+        name: 'Upgrader',
+        role: ROLES.UPGRADER,
+        type: upgraders
+    };
+
+    spawnWorkingCreep(spawn);
+}
+
+if (mainSpawn.energy >= 200 && repairers < maxRepairers) {
+    let spawn = {
+        name: 'Repairer',
+        role: ROLES.REPAIRER,
+        type: repairers
+    };
+
+    spawnWorkingCreep(spawn);
+}
+
+function spawnWorkingCreep(spawn) {
+    let creepName = spawn.name + '_' + (spawn.type + 1);
     console.log(`Snazim se spawnout ${creepName}`);
 
-    return mainSpawn.spawnCreep(
+    let result = mainSpawn.spawnCreep(
         [WORK, CARRY, MOVE],
         creepName,
         {memory: spawn.role});
