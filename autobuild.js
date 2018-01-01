@@ -21,7 +21,8 @@ module.exports = () => {
                         (!creep.hasOwnProperty('building') ||
                             !creep['building']) &&
                         creep.carry.energy === creep.carryCapacity &&
-                        Game.spawns['Spawn1'].energy >= 200
+                        Game.spawns['Spawn1'].energy >= 200 &&
+                        creep.memory.name !== 'upgrader'
                     ) {
                         creep.memory.building = true;
                         creep.memory.harvesting = false;

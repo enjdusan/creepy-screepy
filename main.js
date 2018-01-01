@@ -8,9 +8,9 @@ let
     harvesters = 0,
     upgraders = 0,
     repairers = 0,
-    maxHarvesters = 5,
-    maxUpgraders = Math.floor(maxHarvesters / 2),
-    maxRepairers = 3;
+    maxHarvesters = 3,
+    maxUpgraders = 3,
+    maxRepairers = 2;
 
 for (let name in creeps) {
     if (creeps[name].memory.name === 'harvester') {
