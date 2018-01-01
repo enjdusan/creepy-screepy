@@ -97,8 +97,26 @@ StructureSpawn.prototype =
      * @param {*} [memory] The memory of a new creep. If provided, it will be immediately stored into Memory.creeps[name].
      *
      * @return {string|number|ERR_NOT_OWNER|ERR_NAME_EXISTS|ERR_BUSY|ERR_NOT_ENOUGH_ENERGY|ERR_INVALID_ARGS|ERR_RCL_NOT_ENOUGH}
+     *
+     * @deprecated
      */
     createCreep: function(body, name, memory) { },
+
+    /**
+     * Start the creep spawning process.
+     *
+     * @see {@link http://docs.screeps.com/api/#StructureSpawn.spawnCreep}
+     *
+     * @type {function}
+     *
+     * @param {Array<string>} body An array describing the new creep’s body. Should contain 1 to 50 elements.
+     * @param {string} [name] The name of a new creep. It must be a unique creep name, i.e. the Game.creeps object should not contain another creep with the same name (hash key).
+     * @param {*} [memory|energyStructures|dryRun] An object with additional options for the spawning process.
+     *
+     * @return {string|number|ERR_NOT_OWNER|ERR_NAME_EXISTS|ERR_BUSY|ERR_NOT_ENOUGH_ENERGY|ERR_INVALID_ARGS|ERR_RCL_NOT_ENOUGH}
+     *
+     */
+    spawnCreep: function(body, name, memory) { },
 
     /**
      * Kill the creep and drop up to 100% of resources spent on its spawning and boosting depending on remaining life time.
