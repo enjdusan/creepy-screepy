@@ -12,8 +12,8 @@ module.exports = () => {
 
             // Prioritne stavet cesty pred ostatnimi
             if (
-                (roadConstructions > 0 && constructionSite.structureType === STRUCTURE_ROAD)
-                || roadConstructions === 0
+                (roadConstructions.length > 0 && constructionSite.structureType === STRUCTURE_ROAD)
+                || roadConstructions.length === 0
             ) {
                 for (let creepName in Game.creeps) {
                     let creep = Game.creeps[creepName];
