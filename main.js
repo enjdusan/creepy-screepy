@@ -4,8 +4,10 @@ const autobuild = require('autobuild');
 const mainSpawn = Game.spawns['Spawn1'];
 const creeps = Game.creeps;
 
-let harvesters = 0;
-let upgraders = 0;
+let
+    harvesters = 0,
+    upgraders = 0,
+    repairers = 0;
 
 for (let name in creeps) {
     if (creeps[name].memory.name === 'harvester') {
@@ -19,6 +21,11 @@ for (let name in creeps) {
         ROLES.UPGRADER.run(creeps[name]);
         // ROLES.buildRoad(creeps[name]);
     }
+
+    if (creeps[name].memory.name === 'repairer') {
+        repairers++;
+        ROLES.REPAIRER.run(creeps[name]);
+    }
 }
 
 console.log(`Pocty: harvesters ${harvesters}; upgraders ${upgraders}.`);
@@ -26,6 +33,23 @@ console.log(`Pocty: harvesters ${harvesters}; upgraders ${upgraders}.`);
 // Stavet jen kdyz je dostatek naspawnovanych harvesteru
 if (harvesters >= 6 && upgraders >= 2) {
     autobuild();
+}
+
+if (repairers < 2) {
+    let spawn = {
+        name: 'Repairer',
+        role: ROLES.REPAIRER,
+        type: repairers
+    };
+
+    let creepName = spawn.name + '_' + (spawn.type + 1);
+
+    // FIXME: DRY -> refactor
+    if (spawnWorkingCreep(creepName, spawn) === ERR_NAME_EXISTS) {
+        spawnWorkingCreep(
+            spawn.name + '_' + (spawn.type + 1) + '_' + Math.floor(Math.random() * (9999 - 1000)) + 1000,
+            spawn);
+    }
 }
 
 if (mainSpawn.energy >= 200 && harvesters < 10) {
@@ -45,6 +69,7 @@ if (mainSpawn.energy >= 200 && harvesters < 10) {
 
     let creepName = spawn.name + '_' + (spawn.type + 1);
 
+    // FIXME: DRY -> refactor
     if (spawnWorkingCreep(creepName, spawn) === ERR_NAME_EXISTS) {
         spawnWorkingCreep(
             spawn.name + '_' + (spawn.type + 1) + '_' + Math.floor(Math.random() * (9999 - 1000)) + 1000,
