@@ -58,8 +58,19 @@ function spawnWorkingCreep(creepInfo, name) {
     let creepName = name || creepInfo.name + '_' + (creepInfo.type + 1);
     console.log(`Snazim se spawnout ${creepName}`);
 
+    let bodyParts = {
+        harvester: [WORK, WORK, CARRY, CARRY, MOVE, MOVE, MOVE], // 100, 100, 50, 50, 50, 50, 50 - 450
+        upgrader: [WORK, WORK, CARRY, MOVE], // 100, 100, 50, 50 - 300
+        repairer: [WORK, WORK, CARRY, MOVE], // 100, 100, 50, 50 - 300
+    };
+
+    // Pojistka, kdyz opravdu dochazeji harvesteri, tak udelej obycejneho
+    if (harvesters <= Math.floor(maxHarvesters / 2)) {
+        bodyParts.harvester = [WORK, WORK, CARRY, MOVE];
+    }
+
     let result = mainSpawn.spawnCreep(
-        [WORK, WORK, CARRY, CARRY, MOVE, MOVE, MOVE],
+        bodyParts[creepInfo.name],
         creepName,
         {memory: {name: creepInfo.name, working: false}});
 

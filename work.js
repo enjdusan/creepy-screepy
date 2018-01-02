@@ -14,8 +14,10 @@ const Work = {
                 // PRACE HARVESTERA
                 case 'harvester':
                     if (spawn.energy === spawn.energyCapacity) {
-                        this.fillExtension(creep);
-                        this.construct(creep);
+                        let fill = this.fillExtension(creep);
+                        if (!fill) {
+                            this.construct(creep);
+                        }
                         return;
                     }
 
@@ -78,9 +80,16 @@ const Work = {
             }
         });
 
-        if (creep.transfer(extension, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
+        let transfer = creep.transfer(extension, RESOURCE_ENERGY);
+        console.log('transfer ' + transfer);
+        if (transfer === ERR_NOT_IN_RANGE) {
             creep.moveTo(extension);
+            return true;
+        } else if (transfer === OK) {
+            return true;
         }
+
+        return false;
     }
 };
 
