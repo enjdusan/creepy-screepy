@@ -38,12 +38,14 @@ if (harvesters < maxHarvesters) {
         name: 'harvester',
         type: harvesters
     };
-} else if (upgraders < maxUpgraders) {
+}
+if (upgraders < maxUpgraders) {
     creepInfo = {
         name: 'upgrader',
         type: upgraders
     };
-} else if (repairers < maxRepairers) {
+}
+if (repairers < maxRepairers) {
     creepInfo = {
         name: 'repairer',
         type: repairers

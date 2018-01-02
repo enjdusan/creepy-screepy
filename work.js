@@ -53,7 +53,19 @@ const Work = {
                         }
                     } else {
                         console.log('neni co opravovat');
-                        this.construct(creep);
+                        let construct = this.construct(creep);
+
+                        // FIXME: DRY
+                        if (!construct) {
+                            if (spawn.energy === spawn.energyCapacity) {
+                                this.fillExtension(creep);
+                                return;
+                            }
+
+                            if (creep.transfer(spawn, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
+                                creep.moveTo(spawn);
+                            }
+                        }
                     }
 
             }
@@ -68,20 +80,25 @@ const Work = {
     construct(creep) {
         let constructionSite = creep.pos.findClosestByPath(FIND_CONSTRUCTION_SITES);
 
+        if (!constructionSite) {
+            return false;
+        }
+
         if (creep.build(constructionSite) === ERR_NOT_IN_RANGE) {
             creep.moveTo(constructionSite)
         }
     },
 
     fillExtension(creep) {
+        // Najdeme vsechny extensiony, ktere nemaji plnou kapacitu
         let extension = creep.pos.findClosestByPath(FIND_STRUCTURES, {
             filter(s) {
-                return s.structureType === STRUCTURE_EXTENSION
+                return s.structureType === STRUCTURE_EXTENSION && s.energy < s.energyCapacity
             }
         });
 
         let transfer = creep.transfer(extension, RESOURCE_ENERGY);
-        console.log('transfer ' + transfer);
+
         if (transfer === ERR_NOT_IN_RANGE) {
             creep.moveTo(extension);
             return true;
