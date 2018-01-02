@@ -31,29 +31,27 @@ for (let name in creeps) {
 
 console.log(`Pocty: harvesters ${harvesters}; upgraders ${upgraders}; repairers ${repairers}.`);
 
-if (mainSpawn.energy >= 200) {
-    let creepInfo = null;
+let creepInfo = null;
 
-    if (harvesters < maxHarvesters) {
-        creepInfo = {
-            name: 'harvester',
-            type: harvesters
-        };
-    } else if (upgraders < maxUpgraders) {
-        creepInfo = {
-            name: 'upgrader',
-            type: upgraders
-        };
-    } else if (repairers < maxRepairers) {
-        creepInfo = {
-            name: 'repairer',
-            type: repairers
-        };
-    }
+if (harvesters < maxHarvesters) {
+    creepInfo = {
+        name: 'harvester',
+        type: harvesters
+    };
+} else if (upgraders < maxUpgraders) {
+    creepInfo = {
+        name: 'upgrader',
+        type: upgraders
+    };
+} else if (repairers < maxRepairers) {
+    creepInfo = {
+        name: 'repairer',
+        type: repairers
+    };
+}
 
-    if (creepInfo) {
-        spawnWorkingCreep(creepInfo);
-    }
+if (creepInfo) {
+    spawnWorkingCreep(creepInfo);
 }
 
 function spawnWorkingCreep(creepInfo, name) {
@@ -61,7 +59,7 @@ function spawnWorkingCreep(creepInfo, name) {
     console.log(`Snazim se spawnout ${creepName}`);
 
     let result = mainSpawn.spawnCreep(
-        [WORK, CARRY, MOVE],
+        [WORK, WORK, CARRY, CARRY, MOVE, MOVE, MOVE],
         creepName,
         {memory: {name: creepInfo.name, working: false}});
 
