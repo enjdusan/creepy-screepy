@@ -61,7 +61,7 @@ function spawnWorkingCreep(creepInfo, name) {
     console.log(`Snazim se spawnout ${creepName}`);
 
     let bodyParts = {
-        harvester: [WORK, WORK, CARRY, CARRY, MOVE, MOVE, MOVE], // 100, 100, 50, 50, 50, 50, 50 - 450
+        harvester: [WORK, WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE], // 3x 100, 3x 50, 5x 50 - 700
         upgrader: [WORK, WORK, CARRY, MOVE], // 100, 100, 50, 50 - 300
         repairer: [WORK, WORK, CARRY, MOVE], // 100, 100, 50, 50 - 300
     };

@@ -16,7 +16,18 @@ const Work = {
                     if (spawn.energy === spawn.energyCapacity) {
                         let fill = this.fillExtension(creep);
                         if (!fill) {
-                            this.construct(creep);
+                            let construct = this.construct(creep);
+
+                            if (!construct) {
+                                const containersWithEnergy = spawn.room.find(FIND_STRUCTURES, {
+                                    filter: (i) => i.structureType === STRUCTURE_CONTAINER
+                                        && i.storeCapacity > i.store[RESOURCE_ENERGY]
+                                });
+
+                                if (creep.transfer(containersWithEnergy) === ERR_NOT_IN_RANGE) {
+                                    creep.moveTo(containersWithEnergy);
+                                }
+                            }
                         }
                         return;
                     }
