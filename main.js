@@ -33,23 +33,23 @@ console.log(`Pocty: harvesters ${harvesters}; upgraders ${upgraders}; repairers 
 
 let creepInfo = null;
 
-if (harvesters < maxHarvesters) {
-    creepInfo = {
-        name: 'harvester',
-        type: harvesters
-    };
-}
-if (upgraders < maxUpgraders) {
-    creepInfo = {
-        name: 'upgrader',
-        type: upgraders
-    };
-}
 if (repairers < maxRepairers) {
     creepInfo = {
         name: 'repairer',
         type: repairers
     };
+}
+if (upgraders < maxUpgraders) {
+  creepInfo = {
+    name: 'upgrader',
+    type: upgraders
+  };
+}
+if (harvesters < maxHarvesters) {
+  creepInfo = {
+    name: 'harvester',
+    type: harvesters
+  };
 }
 
 if (creepInfo) {
